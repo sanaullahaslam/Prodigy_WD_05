@@ -43,6 +43,14 @@
         background-color: rgba(204, 204, 204, 0.8);
     }
 
+    .cell.x {
+        color: blue;
+    }
+
+    .cell.o {
+        color: red;
+    }
+
     #message {
         color: #333;
     }
@@ -95,6 +103,7 @@
         if (moves[index] === '') {
             moves[index] = currentPlayer;
             cells[index].textContent = currentPlayer;
+            cells[index].classList.add(currentPlayer.toLowerCase());
             if (checkWin(currentPlayer)) {
                 message.textContent = `${currentPlayer} wins!`;
                 disableCells();
@@ -120,6 +129,7 @@
         moves = ['', '', '', '', '', '', '', '', ''];
         cells.forEach((cell, index) => {
             cell.textContent = '';
+            cell.classList.remove('x', 'o');
             cell.onclick = () => makeMove(index);
         });
         currentPlayer = 'X';
