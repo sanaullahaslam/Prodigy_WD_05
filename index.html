@@ -1,11 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tic Tac Toe</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .board {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        grid-template-rows: repeat(3, 100px);
+        gap: 2px;
+        background-color: #333;
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .cell {
+        border: 1px solid #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 40px;
+        cursor: pointer;
+        background-color: #666;
+        color: #fff;
+    }
+
+    .cell:hover {
+        background-color: #555;
+    }
+
+    .cell:active {
+        background-color: #444;
+    }
+</style>
 </head>
 <body>
-    
+
+<div class="container">
+    <div class="board" id="board">
+        <div class="cell" onclick="handleClick(0, 0)"></div>
+        <div class="cell" onclick="handleClick(0, 1)"></div>
+        <div class="cell" onclick="handleClick(0, 2)"></div>
+        <div class="cell" onclick="handleClick(1, 0)"></div>
+        <div class="cell" onclick="handleClick(1, 1)"></div>
+        <div class="cell" onclick="handleClick(1, 2)"></div>
+        <div class="cell" onclick="handleClick(2, 0)"></div>
+        <div class="cell" onclick="handleClick(2, 1)"></div>
+        <div class="cell" onclick="handleClick(2, 2)"></div>
+    </div>
+</div>
+
+<script>
+let currentPlayer = 'X';
+let board = [
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
+];
+
+function handleClick(row, col) {
+    if (board[row][col] === '') {
+        board[row][col] = currentPlayer;
+        render();
+        if (checkWin(currentPlayer)) {
+            alert(currentPlayer + ' wins!');
+            reset();
+            return;
+        }
+        if (checkDraw()) {
+            alert('Draw!');
+            reset();
+            return;
+        }
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+}
+
+function checkWin(player) {
+    for (let i = 0; i < 3; i++) {
+        if (board[i][0] === player && board[i][1] === player && board[i][2] === player) {
+            return true; // Check rows
+        }
+        if (board[0][i] === player && board[1][i] === player && board[2][i] === player) {
+            return true; // Check columns
+        }
+    }
+    if (board[0][0] === player && board[1][1] === player && board[2][2] === player) {
+        return true; // Check diagonal from top-left to bottom-right
+    }
+    if (board[0][2] === player && board[1][1] === player && board[2][0] === player) {
+        return true; // Check diagonal from top-right to bottom-left
+    }
+    return false;
+}
+
+function checkDraw() {
+    for (let row of board) {
+        for (let cell of row) {
+            if (cell === '') {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function render() {
+    const boardElement = document.getElementById('board');
+    boardElement.innerHTML = '';
+    for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 3; col++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.textContent = board[row][col];
+            boardElement.appendChild(cell);
+        }
+    }
+}
+
+function reset() {
+    currentPlayer = 'X';
+    board = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
+    ];
+    render();
+}
+</script>
+
 </body>
 </html>
