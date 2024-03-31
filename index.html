@@ -4,7 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('background-image.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .weather-card {
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -17,6 +44,46 @@
             <div class="error-message"></div>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        const apiKey = 'YOUR_API_KEY';
+
+        async function getWeatherData(city) {
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+                return null;
+            }
+        }
+
+        async function displayWeather(city) {
+            const locationElement = document.querySelector('.location');
+            const temperatureElement = document.querySelector('.temperature');
+            const descriptionElement = document.querySelector('.description');
+            const errorMessageElement = document.querySelector('.error-message');
+
+            const weatherData = await getWeatherData(city);
+            if (weatherData) {
+                locationElement.textContent = `${weatherData.name}, ${weatherData.sys.country}`;
+                temperatureElement.textContent = `${weatherData.main.temp}°C`;
+                descriptionElement.textContent = weatherData.weather[0].description;
+                errorMessageElement.textContent = '';
+            } else {
+                errorMessageElement.textContent = 'Error fetching weather data. Please try again later.';
+            }
+        }
+
+        function init() {
+            const city = prompt('Enter city name:');
+            if (city) {
+                displayWeather(city);
+            }
+        }
+
+        init();
+    </script>
 </body>
 </html>
