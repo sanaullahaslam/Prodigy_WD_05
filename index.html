@@ -47,6 +47,7 @@
 
     <script>
         const apiKey = 'YOUR_API_KEY';
+        const defaultCity = 'New York'; // Set your default city here
 
         async function getWeatherData(city) {
             try {
@@ -77,10 +78,7 @@
         }
 
         function init() {
-            const city = prompt('Enter city name:');
-            if (city) {
-                displayWeather(city);
-            }
+            displayWeather(defaultCity);
         }
 
         init();
