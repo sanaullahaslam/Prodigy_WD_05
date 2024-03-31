@@ -46,42 +46,40 @@
     </div>
 
     <script>
-        const apiKey = 'YOUR_API_KEY';
-        const defaultCity = 'New York'; // Set your default city here
+        document.addEventListener('DOMContentLoaded', function() {
+            const apiKey = 'YOUR_API_KEY';
+            const defaultCity = 'New York'; // Set your default city here
 
-        async function getWeatherData(city) {
-            try {
-                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Error fetching weather data:', error);
-                return null;
+            async function getWeatherData(city) {
+                try {
+                    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('Error fetching weather data:', error);
+                    return null;
+                }
             }
-        }
 
-        async function displayWeather(city) {
-            const locationElement = document.querySelector('.location');
-            const temperatureElement = document.querySelector('.temperature');
-            const descriptionElement = document.querySelector('.description');
-            const errorMessageElement = document.querySelector('.error-message');
+            async function displayWeather(city) {
+                const locationElement = document.querySelector('.location');
+                const temperatureElement = document.querySelector('.temperature');
+                const descriptionElement = document.querySelector('.description');
+                const errorMessageElement = document.querySelector('.error-message');
 
-            const weatherData = await getWeatherData(city);
-            if (weatherData) {
-                locationElement.textContent = `${weatherData.name}, ${weatherData.sys.country}`;
-                temperatureElement.textContent = `${weatherData.main.temp}°C`;
-                descriptionElement.textContent = weatherData.weather[0].description;
-                errorMessageElement.textContent = '';
-            } else {
-                errorMessageElement.textContent = 'Error fetching weather data. Please try again later.';
+                const weatherData = await getWeatherData(city);
+                if (weatherData) {
+                    locationElement.textContent = `${weatherData.name}, ${weatherData.sys.country}`;
+                    temperatureElement.textContent = `${weatherData.main.temp}°C`;
+                    descriptionElement.textContent = weatherData.weather[0].description;
+                    errorMessageElement.textContent = '';
+                } else {
+                    errorMessageElement.textContent = 'Error fetching weather data. Please try again later.';
+                }
             }
-        }
 
-        function init() {
             displayWeather(defaultCity);
-        }
-
-        init();
+        });
     </script>
 </body>
 </html>
