@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url('background-image.jpg');
+            background-image: url('pic.jpg'); /* Adjust the path to your background image */
             background-size: cover;
             background-position: center;
             height: 100vh;
@@ -18,14 +18,11 @@
             align-items: center;
         }
 
-        .container {
-            text-align: center;
-        }
-
         .weather-card {
             background-color: rgba(255, 255, 255, 0.5);
             padding: 20px;
             border-radius: 10px;
+            text-align: center;
         }
 
         .error-message {
@@ -34,15 +31,13 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="weather-card">
-            <h2 class="location"></h2>
-            <div class="weather-info">
-                <div class="temperature"></div>
-                <div class="description"></div>
-            </div>
-            <div class="error-message"></div>
+    <div class="weather-card">
+        <h2 class="location"></h2>
+        <div class="weather-info">
+            <div class="temperature"></div>
+            <div class="description"></div>
         </div>
+        <div class="error-message"></div>
     </div>
 
     <script>
